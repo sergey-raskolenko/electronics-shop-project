@@ -48,3 +48,8 @@ def test_name_setter(item):
 	item.name = "Диктофон"
 	assert item.name == "Диктофон"
 
+def test_long_name_setter(item):
+	with pytest.raises(Exception):
+		item.name = "Диктофонфон"
+
+
