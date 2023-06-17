@@ -28,6 +28,14 @@ def test__init__(item):
 	assert item.quantity == 20
 
 
+def test_repr__(item):
+	assert repr(item) == "Item('Смартфон', 10000, 20)"
+
+
+def test__str__(item):
+	assert str(item) == 'Смартфон'
+
+
 def test_calculate_total_price(item):
 	"""
 	Проверка подсчета общей стоимости продукта
