@@ -21,10 +21,28 @@ class Item:
         Item.all.append(self)
 
     def __repr__(self):
+        """
+        Возвращает строку с инфорацией об экземпляре для разработчика
+        """
         return f"{self.__class__.__name__}('{self.name}', {self.price}, {self.quantity})"
 
     def __str__(self):
+        """
+        Возвращает строку с информацией об экземпляре для пользователя
+        """
         return f'{self.name}'
+
+    def __add__(self, other) -> int:
+        """
+        Возвращает сложенное количество двух объектов, если они принадлежат классу Item или дочернему классу
+        :param other:
+        :return quantity:
+        """
+        if isinstance(other, Item):
+            quantity = self.quantity + other.quantity
+            return quantity
+        else:
+            raise ValueError("Правый операнд должен быть объектом класса Item или дочерних ему классов")
 
     @property
     def name(self):

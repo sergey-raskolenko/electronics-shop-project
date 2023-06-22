@@ -12,12 +12,6 @@ def test_string_to_number():
 	assert Item.string_to_number('5.0') == 5
 	assert Item.string_to_number('5.5') == 5
 
-@pytest.fixture
-def item():
-	item = Item("Смартфон", 10000, 20)
-	return item
-
-
 def test__init__(item):
 	"""
 	Проверка принадлежности экземляра класса к классу
@@ -59,5 +53,11 @@ def test_name_setter(item):
 def test_long_name_setter(item):
 	with pytest.raises(Exception):
 		item.name = "Диктофонфон"
+
+def test__add__(item, item2, phone):
+	assert item + item2 == 30
+	assert item + phone == 25
+	with pytest.raises(ValueError):
+		item + 1
 
 
