@@ -32,6 +32,18 @@ class Item:
         """
         return f'{self.name}'
 
+    def __add__(self, other) -> int:
+        """
+        Возвращает сложенное количество двух объектов, если они принадлежат классу Item или дочернему классу
+        :param other:
+        :return quantity:
+        """
+        if isinstance(other, Item):
+            quantity = self.quantity + other.quantity
+            return quantity
+        else:
+            raise ValueError("Правый операнд должен быть объектом класса Item или дочерних ему классов")
+
     @property
     def name(self):
         """
