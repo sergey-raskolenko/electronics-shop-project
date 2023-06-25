@@ -13,8 +13,7 @@ def test__init__():
     assert kb.language == "EN"
     kb.change_lang()
     assert kb.language == "RU"
-    kb.change_lang()
-    kb.change_lang()
+    kb.change_lang().change_lang()
     assert kb.language == "RU"
     with pytest.raises(AttributeError):
         kb.language = "CN"
