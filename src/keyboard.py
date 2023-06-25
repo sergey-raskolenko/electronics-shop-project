@@ -17,10 +17,11 @@ class KeyboardLanguages:
         """
         Изменяет раскладку клавиатуры
         """
-        if self.__language is "EN":
+        if self.__language == "EN":
             self.__language = "RU"
         else:
             self.__language = "EN"
+        return self
 
 class KeyBoard(KeyboardLanguages, Item):
     """
