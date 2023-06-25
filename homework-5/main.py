@@ -1,4 +1,4 @@
-from src.keyboard import Keyboard
+from src.keyboard import KeyBoard
 
 if __name__ == '__main__':
     kb = KeyBoard('Dark Project KD87A', 9600, 5)
@@ -10,7 +10,9 @@ if __name__ == '__main__':
     assert str(kb.language) == "RU"
 
     # Сделали RU -> EN -> RU
-    kb.change_lang().change_lang()
+    # Разделил применение на две строки, т.к. метод второй метод не применяется к NoneType объекту
+    kb.change_lang()
+    kb.change_lang()
     assert str(kb.language) == "RU"
 
     kb.language = 'CH'
