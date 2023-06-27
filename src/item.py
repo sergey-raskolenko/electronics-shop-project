@@ -89,26 +89,24 @@ class Item:
         self.price = self.price*Item.pay_rate
 
     @classmethod
-    def instantiate_from_csv(cls):
+    def instantiate_from_csv(cls, path=filename_path_csv):
         """
         Класс-метод, инициализирующий экземпляры класса `Item` данными из файла .csv
         """
         try:
-            with open(cls.filename_path_csv, newline='') as filecsv:
+            with open(path, newline='') as filecsv:
                 reader = csv.DictReader(filecsv)
                 for row in reader:
                     if list(row.keys()) != ['name', 'price', 'quantity']:
-                        raise InstantiateCSVError(f"InstantiateCSVError: Файл {cls.filename} поврежден")
-                    elif not row.get('name') or not row.get('price') or not row.get('quantity'):
-                        raise InstantiateCSVError(f"InstantiateCSVError: Файл {cls.filename} поврежден")
+                        raise InstantiateCSVError(f"Файл {cls.filename} поврежден")
                     elif row['name'] == '' or row['price'] == '' or row['quantity'] == '':
-                        raise InstantiateCSVError(f"InstantiateCSVError: Файл {cls.filename} поврежден")
+                        raise InstantiateCSVError(f"Файл {cls.filename} поврежден")
+                    elif not row.get('name') or not row.get('price') or not row.get('quantity'):
+                        raise InstantiateCSVError(f"Файл {cls.filename} поврежден")
                     else:
                         cls(name=row['name'], price=row['price'], quantity=row['quantity'])
         except FileNotFoundError:
-            print(FileNotFoundError(f"FileNotFoundError: Отсутствует файл {cls.filename}"))
-        except InstantiateCSVError as error:
-            print(error)
+            raise FileNotFoundError(f"Отсутствует файл {path}")
 
     @staticmethod
     def string_to_number(value: str):

@@ -1,5 +1,7 @@
 """Здесь надо написать тесты с использованием pytest для модуля item."""
-from src.item import Item
+import os.path
+
+from src.item import Item, InstantiateCSVError
 import pytest
 
 def test_instantiate_from_csv():
@@ -60,4 +62,12 @@ def test__add__(item, item2, phone):
 	with pytest.raises(ValueError):
 		item + 1
 
-
+def test_exceptions_with_csv_file():
+	with pytest.raises(InstantiateCSVError):
+		Item.instantiate_from_csv(os.path.join(os.path.dirname(__file__),'test_items_1.csv'))
+	with pytest.raises(InstantiateCSVError):
+		Item.instantiate_from_csv(os.path.join(os.path.dirname(__file__),'test_items_2.csv'))
+	with pytest.raises(InstantiateCSVError):
+		Item.instantiate_from_csv(os.path.join(os.path.dirname(__file__),'test_items_3.csv'))
+	with pytest.raises(FileNotFoundError):
+		Item.instantiate_from_csv(os.path.join(os.path.dirname(__file__),'some_file.csv'))
