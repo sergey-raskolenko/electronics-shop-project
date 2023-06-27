@@ -1,12 +1,25 @@
 import os
 import csv
+
+class InstantiateCSVError(Exception):
+    def __init__(self, *args, **kwargs):
+        if args:
+            self.message = args[0]
+        else:
+            self.message = "InstantiateCSVError: Файл поврежден"
+
+        def __str__(self):
+            return f"{self.message}"
+
+
 class Item:
     """
     Класс для представления товара в магазине.
     """
     pay_rate = 1.0
     all = []
-    filename_csv = os.path.join(os.path.dirname(__file__),"items.csv")
+    filename = "items.csv"
+    filename_path_csv = os.path.join(os.path.dirname(__file__), filename)
     def __init__(self, name: str, price: float, quantity: int) -> None:
         """
         Создание экземпляра класса item.
@@ -76,14 +89,24 @@ class Item:
         self.price = self.price*Item.pay_rate
 
     @classmethod
-    def instantiate_from_csv(cls):
+    def instantiate_from_csv(cls, path=filename_path_csv):
         """
         Класс-метод, инициализирующий экземпляры класса `Item` данными из файла .csv
         """
-        with open(Item.filename_csv, newline='') as filecsv:
-            reader = csv.DictReader(filecsv)
-            for row in reader:
-                Item(name=row['name'], price=row['price'], quantity=row['quantity'])
+        try:
+            with open(path, newline='') as filecsv:
+                reader = csv.DictReader(filecsv)
+                for row in reader:
+                    if list(row.keys()) != ['name', 'price', 'quantity']:
+                        raise InstantiateCSVError(f"Файл {cls.filename} поврежден")
+                    elif row['name'] == '' or row['price'] == '' or row['quantity'] == '':
+                        raise InstantiateCSVError(f"Файл {cls.filename} поврежден")
+                    elif not row.get('name') or not row.get('price') or not row.get('quantity'):
+                        raise InstantiateCSVError(f"Файл {cls.filename} поврежден")
+                    else:
+                        cls(name=row['name'], price=row['price'], quantity=row['quantity'])
+        except FileNotFoundError:
+            raise FileNotFoundError(f"Отсутствует файл {path}")
 
     @staticmethod
     def string_to_number(value: str):
